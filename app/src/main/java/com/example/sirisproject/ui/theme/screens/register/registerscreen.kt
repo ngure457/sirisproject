@@ -51,9 +51,9 @@ import com.example.sirisproject.navigation.ROUTE_LOGIN
 
 @Composable
 fun RegisterScreen(navController: NavController) {
-    val authViewModel : AuthViewModel = viewModel()
-    var name by remember { mutableStateOf(value = "") }
-    var phonenumber by remember { mutableStateOf(value = "") }
+   // val authViewModel : AuthViewModel = viewModel()
+    var firstname by remember { mutableStateOf(value = "") }
+    var lastname by remember { mutableStateOf(value = "") }
     var email by remember { mutableStateOf(value = "") }
     var password by remember { mutableStateOf(value = "") }
     var passwordVisibility by remember { mutableStateOf(false) }
@@ -79,19 +79,19 @@ fun RegisterScreen(navController: NavController) {
                 .fillMaxWidth()
                 .height(150.dp))
 
-        OutlinedTextField(value = name,
-            onValueChange = {newName -> name =newName },
-            label = { Text(text = "Enter your  name") },
-            placeholder = { Text(text = "Please enter your name") },
+        OutlinedTextField(value = firstname,
+            onValueChange = {newFirstname -> firstname =newFirstname },
+            label = { Text(text = "Enter your  firstname") },
+            placeholder = { Text(text = "Please enter your firstname") },
             modifier = Modifier.wrapContentWidth().align(Alignment.CenterHorizontally),
             leadingIcon = { Icon(imageVector = Icons.Default.Person, contentDescription = "Person Icon") }
         )
-        OutlinedTextField(value = phonenumber,
-            onValueChange = {newPhoneNumber -> phonenumber =newPhoneNumber },
-            label = { Text(text = "Enter your phone number") },
-            placeholder = { Text(text = "Please enter your phone number") },
+        OutlinedTextField(value = lastname,
+            onValueChange = {newLastname -> lastname =newLastname },
+            label = { Text(text = "Enter your lastname") },
+            placeholder = { Text(text = "Please enter your lastname") },
             modifier = Modifier.wrapContentWidth().align(Alignment.CenterHorizontally),
-            leadingIcon = { Icon(imageVector = Icons.Default.Person, contentDescription ="Phone Icon") }
+            leadingIcon = { Icon(imageVector = Icons.Default.Person, contentDescription ="Person Icon") }
         )
         OutlinedTextField(value = email,
             onValueChange = { newEmail->email=newEmail},

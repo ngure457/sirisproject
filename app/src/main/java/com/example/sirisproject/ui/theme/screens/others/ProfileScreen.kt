@@ -2,6 +2,7 @@ package com.example.sirisproject.ui.theme.screens.others
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,6 +20,8 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -179,11 +182,17 @@ fun ProfileScreen() {
 }
 
 @Composable
+fun Box(modifier: Modifier, contentAlignment: Alignment, content: @Composable () -> Unit) {
+    TODO("Not yet implemented")
+}
+
+@Composable
 fun OutlinedTextField(
-    value: ERROR,
+    //value: ERROR,
     onValueChange: () -> Unit,
-    label: () -> Unit,
-    modifier: Modifier
+    label: @Composable () -> Unit,
+    modifier: Modifier,
+    value: Any
 ) {
     TODO("Not yet implemented")
 }

@@ -17,10 +17,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 
 data class PrayerType(
     val id: Int,
@@ -32,7 +34,7 @@ data class PrayerType(
 )
 
 @Composable
-fun PrayerScreen() {
+fun PrayerScreen(navController: NavHostController) {
     var selectedType by remember { mutableStateOf<Int?>(null) }
 
     val prayerTypes = listOf(
@@ -47,7 +49,7 @@ fun PrayerScreen() {
         PrayerType(
             id = 2,
             title = "The Rosary",
-            description = "Praying on behalf of others, lifting up their needs and concerns to God.",
+            description = "Praying on behalf of YOU & others, lifting up their needs and concerns to God.",
             icon = Icons.Default.People,
             backgroundColor = Color(0xFFDCFCE7), // Light blue
             iconColor = Color(0xFF2563EB)        // Darker blue
@@ -91,15 +93,8 @@ fun PrayerScreen() {
             icon = Icons.Default.Timer,
             backgroundColor = Color(0xFFCCFBF1), // Light teal
             iconColor = Color(0xFF0D9488)        // Darker teal
-        ),
-        PrayerType(
-            id = 8,
-            title = "Communal Prayer",
-            description = "Joining with others in unified prayer for shared intentions.",
-            icon = Icons.Default.Chat,
-            backgroundColor = Color(0xFFFED7AA), // Light orange
-            iconColor = Color(0xFFEA580C)        // Darker orange
         )
+
     )
 
     Column(
@@ -228,6 +223,6 @@ fun PrayerTypeCard(
 @Composable
 fun PrayerScreenPreview() {
     MaterialTheme {
-        PrayerScreen()
+        PrayerScreen(navController = NavHostController(LocalContext.current))
     }
 }
