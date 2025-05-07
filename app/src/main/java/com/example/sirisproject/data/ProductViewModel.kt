@@ -1,36 +1,59 @@
 package com.example.sirisproject.data
 
-//data class ProductViewModel()
-data class Event(
-    val id: String,
-    val title: String,
-    val description: String,
-    val date: String,
-    val time: String,
-    val location: String
-)
+import android.content.Context
+import android.net.Uri
+import androidx.lifecycle.ViewModel
+import androidx.navigation.NavController
+import com.google.firebase.database.FirebaseDatabase
+import okhttp3.OkHttpClient
+import retrofit2.Retrofit
+import java.io.File
 
-data class SermonMedia(
-    val id: String,
-    val title: String,
-    val speaker: String,
-    val description: String,
-    val date: String,
-    val audioUrl: String,
-    val videoUrl: String?
-)
+class ProductViewModel : ViewModel() {
+    private val database = FirebaseDatabase.getInstance().reference.child("Products")
 
-data class PrayerRequest(
-    val id: String,
-    val name: String,
-    val request: String,
-    val date: String,
-    val isAnonymous: Boolean
-)
+    private fun getImgurService(): ImgurService {
+        val logging = HttpLoggingInterceptor()
+        logging.level = HttpLoggingInterceptor.Level.BODY
 
-data class BibleReading(
-    val reference: String,
-    val text: String,
-    val version: String
-)
+        val client = OkHttpClient.Builder()
+            .addInterceptor(logging)
+            .build()
+
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://api.imgur.com/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(client)
+            .build()
+
+        return retrofit.create(ImgurService::class.java)
+    }
+    private fun getFileFromUri(context: Context, uri: Uri): File? {
+        return try {
+            val inputStream = context.contentResolver.openInputStream(uri)
+            val file = File.createTempFile("temp_image", ".jpg", context.cacheDir)
+            file.outputStream().use { output ->
+                inputStream?.copyTo(output)
+            }
+            file
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
+
+
+    fun uploadProductWithImage(
+        uri: Uri,
+        context: Context,
+        productname: String,
+        productquantity: String,
+        productprice: String,
+        productbrand: String,
+        desc: String,
+        navController: NavController
+
+
+
+
 

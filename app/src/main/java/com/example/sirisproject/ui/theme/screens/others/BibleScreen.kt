@@ -2,14 +2,12 @@ package com.example.sirisproject.ui.theme.screens.others
 
 import android.content.Intent
 import android.net.Uri
+import android.net.http.SslCertificate.saveState
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -18,39 +16,20 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.NavOptions
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navOptions
+import com.example.sirisproject.navigation.ROUTE_HOME
+import okhttp3.Route
 import java.text.SimpleDateFormat
 import java.util.*
 
-class DailyReadingsActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            MaterialTheme {
-                DailyReadingsScreen(
-                    onBackPressed = { finish() },
-                    onOriginalArticlePressed = {
-                        // URL to the original article
-                        val url = "https://www.usccb.org/bible/readings"
-                        val intent = Intent(Intent.ACTION_VIEW)
-                        intent.data = Uri.parse(url)
-                        startActivity(intent)
-                    }
-                )
-            }
-        }
-    }
-}
 
 data class DailyReading(
     val title: String,
@@ -65,9 +44,13 @@ fun DailyReadingsScreen(
     onOriginalArticlePressed: () -> Unit
 ) {
     // Sample data - in a real app, this would come from an API or database
+    val navController = null
+    val route = null
+    var launchSingleTop = remember { mutableStateOf(false) }
+    var inclusive = remember { mutableStateOf(false) }
     val dateFormatter = SimpleDateFormat("EEEE, MMMM d, yyyy", Locale.getDefault())
     val currentDate = dateFormatter.format(Date())
-
+     
     val readings = listOf(
         DailyReading(
             "First Reading",
@@ -107,23 +90,43 @@ fun DailyReadingsScreen(
         "Brothers and sisters: May the God of our Lord Jesus Christ, the Father of glory, give you a Spirit of wisdom and revelation resulting in knowledge of him. May the eyes of your hearts be enlightened, that you may know what is the hope that belongs to his call, what are the riches of glory in his inheritance among the holy ones, and what is the surpassing greatness of his power for us who believe, in accord with the exercise of his great might, which he worked in Christ, raising him from the dead and seating him at his right hand in the heavens, far above every principality, authority, power, and dominion, and every name that is named not only in this age but also in the one to come. And he put all things beneath his feet and gave him as head over all things to the church, which is his body, the fullness of the one who fills all things in every way."
     )
     )
-
     Scaffold(
         topBar = {
             TopAppBar(
                 title = { Text("Daily Readings") },
                 navigationIcon = {
-                    IconButton(onClick = onBackPressed) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                    IconButton(
+                        onClick = {
+                            // Navigate to home screen directly, clearing the back stack
+
+                            navController .navigate(ROUTE_HOME) {
+                                // Pop up to the start destination of the graph to
+                                // avoid building up a large stack of destinations
+                                popUpTo(ROUTE_HOME)   {
+                                    inclusive = false
+                                saveState() = true }
+                                // Avoid multiple copies of the same destination when
+
+                                // reselecting the same item
+                                 launchSingleTop = true
+                            }
+                        }
+                    ) {
+                        // You can use Home icon instead of Back if you prefer
+                        // Icon(Icons.Default.Home, contentDescription = "Home")
+                        // Or keep the back arrow if that's your design preference
+                        Icon(Icons.Default.ArrowBack, contentDescription = "Back to Home")
                     }
                 },
-                colors = TopAppBarDefaults.mediumTopAppBarColors(
+                colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
                     titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             )
         }
-    ) { paddingValues ->
+    ) 
+
+   { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -179,6 +182,24 @@ fun DailyReadingsScreen(
         }
     }
 }
+
+private fun NavController.navigate(
+    route: String, navOptionsBuilder: NavOptions.Builder.() -> Unit): Error
+  {val builder = NavOptions.Builder()
+    navOptionsBuilder(builder)
+    val navOptions = builder.build()
+    this.navigate(route, navOptions)}
+
+fun popUpToBuilder(builder: NavOptions.Builder) {}
+
+fun popUpTo(route: String,
+            function:  (popUpToBuilder: NavOptions.Builder.() -> Unit ): Error
+    {val navOptionsBuilder = NavOptions.Builder()
+    popUpToBuilder(navOptionsBuilder)
+
+        val navOptions = navOptionsBuilder.build()
+    .navigate(route, navOptions)
+    }
 
 @Composable
 fun ReadingCard(reading: DailyReading) {

@@ -1,6 +1,6 @@
 package com.example.sirisproject.models
 
-data class ImgurResponse(
+data class ImgurResponce(
     val data: ImgurData,
     val success: Boolean,
     val status: Int

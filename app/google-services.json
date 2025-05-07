@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "147505531422",
+    "project_id": "siri-s-project-912c7",
+    "storage_bucket": "siri-s-project-912c7.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:147505531422:android:1d27ea74eef52a4cab3c0f",
+        "android_client_info": {
+          "package_name": "com.example.sirisproject"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCd728JvvKFga9k32AfxxSA4WR7aRRmayE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

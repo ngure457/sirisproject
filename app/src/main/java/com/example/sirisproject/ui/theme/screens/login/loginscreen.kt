@@ -1,5 +1,6 @@
-package com.example.sirisproject.ui.theme.screens.logo.
+package com.example.sirisproject.ui.theme.screens.logo
 
+import android.content.Context
 import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -52,6 +53,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.sirisproject.R
 import androidx.navigation.compose.rememberNavController
+import com.example.sirisproject.data.AuthViewModel
 import com.example.sirisproject.navigation.ROUTE_REGISTER
 
 
@@ -171,10 +173,8 @@ fun LoginScreen(navController: NavController){
     }
 }
 
-@Composable
-fun AuthViewModel() {
-    TODO("Not yet implemented")
-}
+
+
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable

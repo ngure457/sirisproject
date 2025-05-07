@@ -27,9 +27,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.sirisproject.R
 import com.example.sirisproject.data.BibleReading
 import com.example.sirisproject.navigation.ROUTE_CALL
 import com.example.sirisproject.navigation.ROUTE_EVENTS
+import com.example.sirisproject.navigation.ROUTE_MONEY
 import com.example.sirisproject.navigation.ROUTE_PRAYER
 import com.example.sirisproject.navigation.ROUTE_SHOP
 import com.example.sirisproject.ui.theme.screens.others.EventsScreen
@@ -64,30 +66,36 @@ fun HomeScreen() {
             id = 1,
             title = "Daily Readings",
             imageResId = R.drawable.daily_readings,
-            destinationActivity = BibleReading::class.java
+            destinationActivity = R::class.java
         ),
         FeatureCard(
             id = 2,
-            title = "Upcoming Events",
-            imageResId = R.drawable.daily_readings_2,
-            destinationActivity = ROUTE_EVENTS::class.java
+            title = "Offertory",
+            imageResId = R.drawable.daily_reading3,
+            destinationActivity = ROUTE_MONEY::class.java
         ),
         FeatureCard(
             id = 3,
-            title = "Pray Today",
-            imageResId = R.drawable.daily_readings_3,
-            destinationActivity = ROUTE_PRAYER::class.java
+            title = "Upcoming Events",
+            imageResId = R.drawable.daily_readings2,
+            destinationActivity = ROUTE_EVENTS::class.java
         ),
         FeatureCard(
             id = 4,
-            title = "What's in the Shop?",
-            imageResId = R.drawable.daily_readings_4,
-            destinationActivity = ROUTE_SHOP::class.java
+            title = "Pray Today",
+            imageResId = R.drawable.daily_readings4,
+            destinationActivity = ROUTE_PRAYER::class.java
         ),
         FeatureCard(
             id = 5,
+            title = "What's in the Shop?",
+            imageResId = R.drawable.daily_readings5,
+            destinationActivity = ROUTE_SHOP::class.java
+        ),
+        FeatureCard(
+            id = 6,
             title = "Call US",
-            imageResId = R.drawable.daily_readings_5,
+            imageResId = R.drawable.calling,
             destinationActivity = ROUTE_CALL::class.java
         )
     )
