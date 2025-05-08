@@ -44,7 +44,7 @@ fun DailyReadingsScreen(
     onOriginalArticlePressed: () -> Unit
 ) {
     // Sample data - in a real app, this would come from an API or database
-    val navController = null
+    val navController = rememberNavController()
     val route = null
     var launchSingleTop = remember { mutableStateOf(false) }
     var inclusive = remember { mutableStateOf(false) }
@@ -99,17 +99,18 @@ fun DailyReadingsScreen(
                         onClick = {
                             // Navigate to home screen directly, clearing the back stack
 
-                            navController .navigate(ROUTE_HOME) {
+                            navController.navigate(ROUTE_HOME)
+//                            {
                                 // Pop up to the start destination of the graph to
                                 // avoid building up a large stack of destinations
-                                popUpTo(ROUTE_HOME)   {
-                                    inclusive = false
-                                saveState() = true }
+//                                popUpTo(ROUTE_HOME)   {
+//                                    inclusive = false
+//                                saveState() = true }
                                 // Avoid multiple copies of the same destination when
 
                                 // reselecting the same item
-                                 launchSingleTop = true
-                            }
+//                                 launchSingleTop = true
+//                            }
                         }
                     ) {
                         // You can use Home icon instead of Back if you prefer
@@ -183,23 +184,23 @@ fun DailyReadingsScreen(
     }
 }
 
-private fun NavController.navigate(
-    route: String, navOptionsBuilder: NavOptions.Builder.() -> Unit): Error
-  {val builder = NavOptions.Builder()
-    navOptionsBuilder(builder)
-    val navOptions = builder.build()
-    this.navigate(route, navOptions)}
-
-fun popUpToBuilder(builder: NavOptions.Builder) {}
-
-fun popUpTo(route: String,
-            function:  (popUpToBuilder: NavOptions.Builder.() -> Unit ): Error
-    {val navOptionsBuilder = NavOptions.Builder()
-    popUpToBuilder(navOptionsBuilder)
-
-        val navOptions = navOptionsBuilder.build()
-    .navigate(route, navOptions)
-    }
+//private fun NavController.navigate(
+//    route: String, navOptionsBuilder: NavOptions.Builder.() -> Unit): Error
+//  {val builder = NavOptions.Builder()
+//    navOptionsBuilder(builder)
+//    val navOptions = builder.build()
+//    this.navigate(route, navOptions)}
+//
+//fun popUpToBuilder(builder: NavOptions.Builder) {}
+//
+//fun popUpTo(route: String,
+//            function:  (popUpToBuilder: NavOptions.Builder.() -> Unit ): Error
+//    {val navOptionsBuilder = NavOptions.Builder()
+//    popUpToBuilder(navOptionsBuilder)
+//
+//        val navOptions = navOptionsBuilder.build()
+//    .navigate(route, navOptions)
+//    }
 
 @Composable
 fun ReadingCard(reading: DailyReading) {

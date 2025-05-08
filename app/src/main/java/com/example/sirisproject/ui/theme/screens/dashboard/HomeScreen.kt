@@ -5,7 +5,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -13,12 +12,11 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -27,26 +25,18 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.example.sirisproject.R
-import com.example.sirisproject.data.BibleReading
+import com.example.sirisproject.navigation.ROUTE_BIBLE
 import com.example.sirisproject.navigation.ROUTE_CALL
 import com.example.sirisproject.navigation.ROUTE_EVENTS
 import com.example.sirisproject.navigation.ROUTE_MONEY
 import com.example.sirisproject.navigation.ROUTE_PRAYER
+import com.example.sirisproject.navigation.ROUTE_PROFILE
 import com.example.sirisproject.navigation.ROUTE_SHOP
-import com.example.sirisproject.ui.theme.screens.others.EventsScreen
-import com.example.sirisproject.ui.theme.screens.others.PrayerScreen
 
-class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            MaterialTheme {
-                HomeScreen()
-            }
-        }
-    }
-}
+
 
 data class FeatureCard(
     val id: Int,
@@ -57,7 +47,7 @@ data class FeatureCard(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen() {
+fun HomeScreen(navController: NavController) {
     val context = LocalContext.current
 
     // Sample feature cards - in a real app, you might get these from a repository
@@ -66,7 +56,7 @@ fun HomeScreen() {
             id = 1,
             title = "Daily Readings",
             imageResId = R.drawable.daily_readings,
-            destinationActivity = R::class.java
+            destinationActivity = ROUTE_BIBLE::class.java
         ),
         FeatureCard(
             id = 2,
@@ -83,13 +73,13 @@ fun HomeScreen() {
         FeatureCard(
             id = 4,
             title = "Pray Today",
-            imageResId = R.drawable.daily_readings4,
+            imageResId = R.drawable.daily_readings5,
             destinationActivity = ROUTE_PRAYER::class.java
         ),
         FeatureCard(
             id = 5,
             title = "What's in the Shop?",
-            imageResId = R.drawable.daily_readings5,
+            imageResId = R.drawable.shopping,
             destinationActivity = ROUTE_SHOP::class.java
         ),
         FeatureCard(
@@ -103,10 +93,10 @@ fun HomeScreen() {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Church App") },
+                title = { Text("The Congregation") },
                 navigationIcon = {
-                    IconButton(onClick = { /* Open drawer or menu */ }) {
-                        Icon(Icons.Default.Menu, contentDescription = "Menu")
+                    IconButton(onClick = { ROUTE_PROFILE }) {
+                        Icon(Icons.Default.Person, contentDescription = "person icon")
                     }
                 },
                 colors = TopAppBarDefaults.mediumTopAppBarColors(
@@ -196,6 +186,6 @@ fun FeatureCardItem(feature: FeatureCard, onClick: () -> Unit) {
 @Composable
 fun HomeScreenPreview() {
     MaterialTheme {
-        HomeScreen()
+        HomeScreen(navController = NavController(LocalContext.current))
     }
 }

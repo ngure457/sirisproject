@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.sirisproject.navigation.AppNavHost
 import com.example.sirisproject.ui.theme.SirisProjectTheme
 
 class MainActivity : ComponentActivity() {
@@ -26,9 +27,8 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-private fun MainActivity.AppNavHost() {
-    TODO("Not yet implemented")
-}
+
+
 
 @Composable
 fun Greetings(name: String,modifier: Modifier=Modifier){

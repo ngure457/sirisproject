@@ -47,13 +47,14 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.sirisproject.R
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.sirisproject.data.AuthViewModel
 import com.example.sirisproject.navigation.ROUTE_LOGIN
 
 
 @Composable
 fun RegisterScreen(navController: NavController) {
-    val authViewModel : AuthViewModel = viewModel()
+   // val authViewModel : AuthViewModel = viewModel()
     var firstname by remember { mutableStateOf(value = "") }
     var lastname by remember { mutableStateOf(value = "") }
     var email by remember { mutableStateOf(value = "") }
@@ -63,7 +64,7 @@ fun RegisterScreen(navController: NavController) {
 
     Column (modifier = Modifier.fillMaxHeight().fillMaxWidth(), verticalArrangement = Arrangement.Center) {
         Text(text = "Register Here !",
-            fontSize = 30.sp,
+            fontSize = 25.sp,
             color = Color.Black,
             fontFamily = FontFamily.SansSerif,
             fontStyle = FontStyle.Normal,
@@ -71,7 +72,7 @@ fun RegisterScreen(navController: NavController) {
             modifier = Modifier
                     .background(Color.Gray)
                      .padding(10.dp)
-                  .fillMaxWidth()
+
         )
 
         Image(painter = painterResource(R.drawable.logo5),
@@ -156,9 +157,9 @@ fun RegisterScreen(navController: NavController) {
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun RegisterScreenPreview(){
-    com.example.sirisproject.ui.theme.SirisProjectTheme {
+    RegisterScreen(rememberNavController())
 }
-}
+
 
 
 

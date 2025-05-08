@@ -47,7 +47,6 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -55,7 +54,8 @@ import com.example.sirisproject.R
 import androidx.navigation.compose.rememberNavController
 import com.example.sirisproject.data.AuthViewModel
 import com.example.sirisproject.navigation.ROUTE_REGISTER
-
+import com.example.sirisproject.navigation.ROUTE_SPLASH
+import com.example.sirisproject.ui.theme.screens.SplashScreen
 
 @Composable
 fun LoginScreen(navController: NavController){
@@ -67,9 +67,7 @@ fun LoginScreen(navController: NavController){
                 .fillMaxSize()
                 .background(Color.Gray)// Dark background
                 .padding(innerPadding)
-
         )
-
         var email by remember { mutableStateOf(value = "") }
         var password by remember { mutableStateOf(value = "") }
         var authViewModel = AuthViewModel()
@@ -172,10 +170,6 @@ fun LoginScreen(navController: NavController){
         }
     }
 }
-
-
-
-
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun LoginScreenPreview(){

@@ -219,10 +219,3 @@ fun PrayerTypeCard(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PrayerScreenPreview() {
-    MaterialTheme {
-        PrayerScreen(navController = NavHostController(LocalContext.current))
-    }
-}

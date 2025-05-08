@@ -11,16 +11,21 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import com.example.sirisproject.ui.theme.screens.dashboard.HomeScreen
 
 
 @Composable
-fun EventsScreen() {
+fun EventsScreen(navController: NavHostController) {
+    val context = LocalContext.current
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -114,5 +119,12 @@ fun EventsScreen() {
                 }
             }
         }
+    }
+}
+@Preview(showBackground = true)
+@Composable
+fun EventScreenPreview() {
+    MaterialTheme {
+        EventsScreen(navController = NavController(LocalContext.current) as NavHostController)
     }
 }

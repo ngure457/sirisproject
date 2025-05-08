@@ -1,5 +1,6 @@
 package com.example.sirisproject.ui.theme.screens.others
 
+import android.R
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -25,8 +26,10 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -36,7 +39,7 @@ fun ProfileScreen() {
     var name by remember { mutableStateOf("John Doe") }
     var email by remember { mutableStateOf("john.doe@example.com") }
     val it = null
-    name = it
+    name = it.toString()
     var notificationsEnabled by remember { mutableStateOf(true) }
 
     Column(
@@ -98,14 +101,14 @@ fun ProfileScreen() {
 
                 OutlinedTextField(
                     value = name,
-                    onValueChange = { email = it },
+                    onValueChange = { email = it.toString()  },
                     label = { Text("Name") },
                     modifier = Modifier.fillMaxWidth()
                 )
 
                 OutlinedTextField(
                     value = email,
-                    onValueChange = { email = it },
+                    onValueChange = { email = it.toString() },
                     label = { Text("Email") },
                     modifier = Modifier.fillMaxWidth()
                 )
