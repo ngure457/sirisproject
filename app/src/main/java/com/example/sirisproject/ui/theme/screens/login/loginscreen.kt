@@ -90,7 +90,7 @@ fun LoginScreen(navController: NavController){
             )
             Spacer(modifier = Modifier.height(10.dp))
             Image(
-                painter = painterResource(R.drawable.logo3),
+                painter = painterResource(R.drawable.logo9),
                 contentDescription = "logo",
                 modifier = Modifier
                     .wrapContentHeight()
@@ -158,7 +158,7 @@ fun LoginScreen(navController: NavController){
 
             }
             Text(
-                text = buildAnnotatedString { append("After login then,Register here") },
+                text = buildAnnotatedString { append("If you don't have an account,Register here") },
                 modifier = Modifier.wrapContentWidth()
                     .align(Alignment.CenterHorizontally)
                    .height(20.dp)

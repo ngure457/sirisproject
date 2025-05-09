@@ -1,9 +1,5 @@
 package com.example.sirisproject.ui.theme.screens.dashboard
 
-import android.content.Intent
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -11,7 +7,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -26,7 +21,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
 import com.example.sirisproject.R
 import com.example.sirisproject.navigation.ROUTE_BIBLE
 import com.example.sirisproject.navigation.ROUTE_CALL
@@ -36,57 +30,53 @@ import com.example.sirisproject.navigation.ROUTE_PRAYER
 import com.example.sirisproject.navigation.ROUTE_PROFILE
 import com.example.sirisproject.navigation.ROUTE_SHOP
 
-
-
 data class FeatureCard(
     val id: Int,
     val title: String,
     val imageResId: Int, // Resource ID for the image
-    val destinationActivity: Class<*>? = null // Activity to launch when card is clicked
+    val route: String // Navigation route
 )
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(navController: NavController) {
-    val context = LocalContext.current
-
-    // Sample feature cards - in a real app, you might get these from a repository
+    // Sample feature cards
     val features = listOf(
         FeatureCard(
             id = 1,
             title = "Daily Readings",
             imageResId = R.drawable.daily_readings,
-            destinationActivity = ROUTE_BIBLE::class.java
+            route = ROUTE_BIBLE
         ),
         FeatureCard(
             id = 2,
-            title = "Offertory",
-            imageResId = R.drawable.daily_reading3,
-            destinationActivity = ROUTE_MONEY::class.java
+            title = "Upcoming Events",
+            imageResId = R.drawable.daily_readings2,
+            route = ROUTE_EVENTS
         ),
         FeatureCard(
             id = 3,
-            title = "Upcoming Events",
-            imageResId = R.drawable.daily_readings2,
-            destinationActivity = ROUTE_EVENTS::class.java
+            title = "Offertory",
+            imageResId = R.drawable.daily_reading3,
+            route = ROUTE_MONEY
         ),
         FeatureCard(
             id = 4,
             title = "Pray Today",
             imageResId = R.drawable.daily_readings5,
-            destinationActivity = ROUTE_PRAYER::class.java
+            route = ROUTE_PRAYER
         ),
         FeatureCard(
             id = 5,
             title = "What's in the Shop?",
             imageResId = R.drawable.shopping,
-            destinationActivity = ROUTE_SHOP::class.java
+            route = ROUTE_SHOP
         ),
         FeatureCard(
             id = 6,
             title = "Call US",
             imageResId = R.drawable.calling,
-            destinationActivity = ROUTE_CALL::class.java
+            route = ROUTE_CALL
         )
     )
 
@@ -95,7 +85,7 @@ fun HomeScreen(navController: NavController) {
             TopAppBar(
                 title = { Text("The Congregation") },
                 navigationIcon = {
-                    IconButton(onClick = { ROUTE_PROFILE }) {
+                    IconButton(onClick = { navController.navigate(ROUTE_PROFILE) }) {
                         Icon(Icons.Default.Person, contentDescription = "person icon")
                     }
                 },
@@ -117,12 +107,8 @@ fun HomeScreen(navController: NavController) {
             items(features) { feature ->
                 FeatureCardItem(
                     feature = feature,
-                    onClick = {
-                        // Launch the associated activity when card is clicked
-                        feature.destinationActivity?.let { activityClass ->
-                            val intent = Intent(context, activityClass)
-                            context.startActivity(intent)
-                        }
+                    onCardClick = {
+                        navController.navigate(feature.route)
                     }
                 )
             }
@@ -131,12 +117,12 @@ fun HomeScreen(navController: NavController) {
 }
 
 @Composable
-fun FeatureCardItem(feature: FeatureCard, onClick: () -> Unit) {
+fun FeatureCardItem(feature: FeatureCard, onCardClick: () -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .height(220.dp) // Medium height for card
-            .clickable(onClick = onClick),
+            .height(220.dp)
+            .clickable(onClick = onCardClick),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(
@@ -150,10 +136,8 @@ fun FeatureCardItem(feature: FeatureCard, onClick: () -> Unit) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(160.dp) // Allocate most space to the image
+                    .height(160.dp)
             ) {
-                // In a real app, you might want to use a library like Coil or Glide
-                // This is a placeholder using a local resource
                 Image(
                     painter = painterResource(id = feature.imageResId),
                     contentDescription = feature.title,
@@ -166,7 +150,7 @@ fun FeatureCardItem(feature: FeatureCard, onClick: () -> Unit) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(60.dp) // Fixed height for the title section
+                    .height(60.dp)
                     .padding(8.dp),
                 contentAlignment = Alignment.Center
             ) {
@@ -180,7 +164,6 @@ fun FeatureCardItem(feature: FeatureCard, onClick: () -> Unit) {
         }
     }
 }
-
 // For preview purposes
 @Preview(showBackground = true)
 @Composable

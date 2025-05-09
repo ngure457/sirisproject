@@ -1,5 +1,6 @@
 package com.example.sirisproject.ui.theme.screens.register
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -54,7 +55,7 @@ import com.example.sirisproject.navigation.ROUTE_LOGIN
 
 @Composable
 fun RegisterScreen(navController: NavController) {
-   // val authViewModel : AuthViewModel = viewModel()
+    val authViewModel : AuthViewModel = viewModel()
     var firstname by remember { mutableStateOf(value = "") }
     var lastname by remember { mutableStateOf(value = "") }
     var email by remember { mutableStateOf(value = "") }
@@ -72,6 +73,7 @@ fun RegisterScreen(navController: NavController) {
             modifier = Modifier
                     .background(Color.Gray)
                      .padding(10.dp)
+                .align(Alignment.CenterHorizontally)
 
         )
 
@@ -137,7 +139,8 @@ fun RegisterScreen(navController: NavController) {
 
 
         Button(onClick = {
-           // authViewModel.signup(firstname,lastname,email,password,navController,context)
+
+            authViewModel.register(firstname,lastname,email,password,navController,context)
         }
             ,modifier = Modifier.wrapContentWidth().align(Alignment.CenterHorizontally),
             colors = ButtonDefaults.buttonColors(Color.Blue)) {
@@ -154,12 +157,15 @@ fun RegisterScreen(navController: NavController) {
 
     }
 }
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun RegisterScreenPreview(){
-    RegisterScreen(rememberNavController())
-}
 
 
 
+//@Preview(showBackground = true, showSystemUi = true)
+//@Composable
+//fun RegisterScreenPreview(){
+//    RegisterScreen(rememberNavController())
+//}
+//
+//
+//
 

@@ -146,10 +146,10 @@ fun ProductItem(product: Product) {
 }
 
 // For preview in Android Studio
-@Preview(showBackground = true)
-@Composable
-fun ProductListScreenPreview() {
-    MaterialTheme {
-        ProductListScreen(navController = NavHostController(LocalContext.current))
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun ProductListScreenPreview() {
+//    MaterialTheme {
+//        ProductListScreen(navController = NavHostController(LocalContext.current))
+//    }
+//}

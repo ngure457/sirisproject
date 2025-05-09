@@ -18,7 +18,7 @@ class AuthViewModel:ViewModel() {
     private val _errorMessage = MutableStateFlow<String?>(null)
 
 
-    fun signup(
+    fun register(
         firstname: String, lastname: String, email: String, password: String,
         navController: NavController,
         context: Context

@@ -1,14 +1,14 @@
 package com.example.sirisproject.ui.theme.screens.others
 
-import android.R
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -21,6 +21,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
@@ -33,13 +34,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 
 @Composable
-fun ProfileScreen() {
+fun ProfileScreen(navController: NavController) {
     var name by remember { mutableStateOf("John Doe") }
     var email by remember { mutableStateOf("john.doe@example.com") }
-    val it = null
-    name = it.toString()
     var notificationsEnabled by remember { mutableStateOf(true) }
 
     Column(
@@ -49,7 +49,7 @@ fun ProfileScreen() {
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         Text(
-            "My Profile",
+            text = "My Profile",
             style = MaterialTheme.typography.headlineSmall
         )
 
@@ -67,7 +67,7 @@ fun ProfileScreen() {
                     color = MaterialTheme.colorScheme.primaryContainer
                 ) {
                     Icon(
-                        Icons.Filled.Person,
+                        imageVector = Icons.Filled.Person,
                         contentDescription = "Profile Picture",
                         modifier = Modifier
                             .size(60.dp)
@@ -95,20 +95,20 @@ fun ProfileScreen() {
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 Text(
-                    "Personal Information",
+                    text = "Personal Information",
                     style = MaterialTheme.typography.titleMedium
                 )
 
                 OutlinedTextField(
                     value = name,
-                    onValueChange = { email = it.toString()  },
+                    onValueChange = { name = it }, // Fixed: Update name, not email
                     label = { Text("Name") },
                     modifier = Modifier.fillMaxWidth()
                 )
 
                 OutlinedTextField(
                     value = email,
-                    onValueChange = { email = it.toString() },
+                    onValueChange = { email = it },
                     label = { Text("Email") },
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -145,7 +145,7 @@ fun ProfileScreen() {
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 Text(
-                    "My Church Involvement",
+                    text = "My Church Involvement",
                     style = MaterialTheme.typography.titleMedium
                 )
 
@@ -182,21 +182,5 @@ fun ProfileScreen() {
             Text("Log Out")
         }
     }
-}
-
-@Composable
-fun Box(modifier: Modifier, contentAlignment: Alignment, content: @Composable () -> Unit) {
-    TODO("Not yet implemented")
-}
-
-@Composable
-fun OutlinedTextField(
-    //value: ERROR,
-    onValueChange: () -> Unit,
-    label: @Composable () -> Unit,
-    modifier: Modifier,
-    value: Any
-) {
-    TODO("Not yet implemented")
 }
 

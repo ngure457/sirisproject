@@ -99,13 +99,13 @@ fun MoneyScreen(navController: NavController) {
         }
     }
 }
-@Preview(showBackground = true)
-@Composable
-fun MoneyScreenPreview() {
-    MaterialTheme {
-        MoneyScreen(navController = NavController(LocalContext.current))
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun MoneyScreenPreview() {
+//    MaterialTheme {
+//        MoneyScreen(navController = NavController(LocalContext.current))
+//    }
+//}
 
 // Add this screen to your navigation graph in NavigationGraph function
 /*
