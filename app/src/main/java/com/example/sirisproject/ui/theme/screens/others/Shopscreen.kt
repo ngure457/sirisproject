@@ -3,6 +3,8 @@ package com.example.sirisproject.ui.theme.screens.others
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -17,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.sirisproject.R
+import com.example.sirisproject.navigation.ROUTE_HOME
 
 
 data class Product(
@@ -52,14 +55,35 @@ fun ProductListScreen(navController: NavHostController) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Products") },
+                title = { Text("Shop Today") },
+                navigationIcon = {
+                    IconButton(
+                        onClick = {
+                            // Navigate to home screen directly, clearing the back stack
+                            navController.navigate(ROUTE_HOME) {
+                                // Pop up to the start destination of the graph to
+                                // avoid building up a large stack of destinations
+                                popUpTo(ROUTE_HOME) {
+                                    inclusive = false
+                                }
+                                // Avoid multiple copies of the same destination when
+                                // reselecting the same item
+                                launchSingleTop = true
+                            }
+                            // Alternatively, you can use the onBackPressed callback if preferred
+                            // onBackPressed()
+                        }
+                    ) {
+                        Icon(Icons.Default.ArrowBack, contentDescription = "Back to Home")
+                    } },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
                     titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             )
         }
-    ) { paddingValues ->
+    )
+    { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -116,7 +140,7 @@ fun ProductItem(product: Product) {
                 Spacer(modifier = Modifier.height(4.dp))
 
                 Text(
-                    text = "Price: $${product.price}",
+                    text = "Price: K${product.price}",
                     color = MaterialTheme.colorScheme.primary,
                     fontWeight = FontWeight.Medium,
                     fontSize = 16.sp
@@ -125,7 +149,7 @@ fun ProductItem(product: Product) {
                 Spacer(modifier = Modifier.height(4.dp))
 
                 Text(
-                    text = "In Stock: ${product.quantity}",
+                    text = "In Stock: K${product.quantity}",
                     color = if (product.quantity > 5)
                         MaterialTheme.colorScheme.tertiary
                     else

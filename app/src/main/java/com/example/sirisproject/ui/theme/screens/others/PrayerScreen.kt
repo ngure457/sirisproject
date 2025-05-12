@@ -18,6 +18,8 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Book
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.NightsStay
@@ -27,8 +29,14 @@ import androidx.compose.material.icons.filled.Timer
 import androidx.compose.material.icons.filled.WbSunny
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -42,6 +50,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.example.sirisproject.navigation.ROUTE_HOME
 
 data class PrayerType(
     val id: Int,
@@ -52,6 +61,7 @@ data class PrayerType(
     val iconColor: Color
 )
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PrayerScreen(navController: NavHostController) {
     var selectedType by remember { mutableStateOf<Int?>(null) }
@@ -115,63 +125,98 @@ fun PrayerScreen(navController: NavHostController) {
         )
     )
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color(0xFFF9FAFB))
-            .padding(16.dp)
-    ) {
-        // Header
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("Pray Today") },
+                navigationIcon = {
+                    IconButton(
+                        onClick = {
+                            // Navigate to home screen directly, clearing the back stack
+                            navController.navigate(ROUTE_HOME) {
+                                // Pop up to the start destination of the graph to
+                                // avoid building up a large stack of destinations
+                                popUpTo(ROUTE_HOME) {
+                                    inclusive = false
+                                }
+                                // Avoid multiple copies of the same destination when
+                                // reselecting the same item
+                                launchSingleTop = true
+                            }
+
+                            // Alternatively, you can use the onBackPressed callback if preferred
+                            // onBackPressed()
+                        }
+                    ) {
+                        Icon(Icons.Default.ArrowBack, contentDescription = "Back to Home")
+                    }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                )
+            )
+        }
+    ) { paddingValues ->
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .fillMaxSize()
+                .background(Color(0xFFF9FAFB))
+                .padding(paddingValues)
+                .padding(16.dp)
         ) {
-            Text(
-                text = "Types of Prayer",
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color(0xFF1F2937)
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = "Explore different ways to connect spiritually",
-                fontSize = 16.sp,
-                color = Color(0xFF4B5563)
-            )
-        }
-
-        // Grid of prayer types
-        LazyVerticalGrid(
-            columns = GridCells.Adaptive(minSize = 160.dp),
-            contentPadding = PaddingValues(8.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            items(prayerTypes) { prayerType ->
-                PrayerTypeCard(
-                    prayerType = prayerType,
-                    isSelected = selectedType == prayerType.id,
-                    onClick = {
-                        selectedType = if (selectedType == prayerType.id) null else prayerType.id
-                    }
+            // Header
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = "Types of Prayer",
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color(0xFF1F2937)
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = "Explore different ways to connect spiritually",
+                    fontSize = 16.sp,
+                    color = Color(0xFF4B5563)
                 )
             }
-        }
 
-        // Footer
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 24.dp),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                text = "Click on a prayer type to learn more about it",
-                fontSize = 14.sp,
-                color = Color(0xFF6B7280)
-            )
+            // Grid of prayer types
+            LazyVerticalGrid(
+                columns = GridCells.Adaptive(minSize = 160.dp),
+                contentPadding = PaddingValues(8.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                items(prayerTypes) { prayerType ->
+                    PrayerTypeCard(
+                        prayerType = prayerType,
+                        isSelected = selectedType == prayerType.id,
+                        onClick = {
+                            selectedType = if (selectedType == prayerType.id) null else prayerType.id
+                        }
+                    )
+                }
+            }
+
+            // Footer
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 24.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = "Click on a prayer type to learn more about it",
+                    fontSize = 14.sp,
+                    color = Color(0xFF6B7280)
+                )
+            }
         }
     }
 }

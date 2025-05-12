@@ -15,6 +15,7 @@ import com.example.sirisproject.ui.theme.screens.others.MoneyScreen
 import com.example.sirisproject.ui.theme.screens.others.PrayerScreen
 import com.example.sirisproject.ui.theme.screens.others.ProductListScreen
 import com.example.sirisproject.ui.theme.screens.others.ProfileScreen
+import com.example.sirisproject.ui.theme.screens.others.UpdateproductScreen
 import com.example.sirisproject.ui.theme.screens.register.RegisterScreen
 
 
@@ -82,6 +83,13 @@ fun AppNavHost(
         composable(ROUTE_SHOP) {
             ProductListScreen(navController)
         }
+        composable("$ROUTE_UPDATE_PRODUCT/{productId}") {
+
+                passedData -> UpdateproductScreen(
+            navController, passedData.arguments?.getString("productId")!!
+        )
+        }
+
     }
 }
 

@@ -76,7 +76,18 @@ fun DailyReadingsScreen(
             "Second Reading",
             "Ephesians 1:17-23",
             "Brothers and sisters: May the God of our Lord Jesus Christ, the Father of glory, give you a Spirit of wisdom and revelation resulting in knowledge of him. May the eyes of your hearts be enlightened, that you may know what is the hope that belongs to his call, what are the riches of glory in his inheritance among the holy ones, and what is the surpassing greatness of his power for us who believe, in accord with the exercise of his great might, which he worked in Christ, raising him from the dead and seating him at his right hand in the heavens, far above every principality, authority, power, and dominion, and every name that is named not only in this age but also in the one to come. And he put all things beneath his feet and gave him as head over all things to the church, which is his body, the fullness of the one who fills all things in every way."
+        ),
+        DailyReading(
+            "The GOSPEL",
+            "John 10:27-30",
+            "I know them,and they follow me,"+
+            "I give them eternal life, and they shall never perish."+
+            "No one can take them out of my hand."+
+            "My Father,who has given them to me,is greater than all,"+
+            "and no one can take them out of the Father's hand."+
+            "The Father and I are ONE"
         )
+
     )
 
     Scaffold(
@@ -96,15 +107,13 @@ fun DailyReadingsScreen(
                                 // Avoid multiple copies of the same destination when
                                 // reselecting the same item
                                 launchSingleTop = true
-                            }
-
-                            // Alternatively, you can use the onBackPressed callback if preferred
-                            // onBackPressed()
+                                        }
+                        // Alternatively, you can use the onBackPressed callback if preferred
+                        // onBackPressed()
                         }
                     ) {
                         Icon(Icons.Default.ArrowBack, contentDescription = "Back to Home")
-                    }
-                },
+                    } },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
                     titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer

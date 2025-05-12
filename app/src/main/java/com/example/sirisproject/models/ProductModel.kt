@@ -1,6 +1,14 @@
 package com.example.sirisproject.models
 
-
+data class ProductModel(
+    var productname: String = "",
+    var productquantity: String = "",
+    var productprice: String = "",
+    var desc: String = "",
+    var imageUrl: String = "",
+    var productId: String = "",
+    val productId1: String
+)
 data class Event(
     val id: String,
     val title: String,

@@ -27,18 +27,20 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
+import com.example.sirisproject.navigation.ROUTE_HOME
 
 
-
-// Data class for profile
 data class Profile(
     val id: Int,
     val name: String,
@@ -78,12 +80,11 @@ val sampleProfiles = listOf(
         avatarUrl = "https://via.placeholder.com/100",
         department = "Guidance & Counseling"
     ),
-
 )
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ContactDirectoryApp() {
+fun CallScreen(navController: NavController) {
     val profiles = remember { mutableStateOf(sampleProfiles) }
     var searchQuery by remember { mutableStateOf("") }
     var callingProfile by remember { mutableStateOf<Profile?>(null) }
@@ -93,14 +94,20 @@ fun ContactDirectoryApp() {
                 it.title.contains(searchQuery, ignoreCase = true)
     }
 
-    Box(modifier = Modifier.fillMaxSize()) {
-        Column(modifier = Modifier.fillMaxSize()) {
-            // App Bar
+    Scaffold(
+        topBar = {
             TopAppBar(
-                title = { Text("Contacts") },
+                title = { Text("Call Us Today") },
                 navigationIcon = {
-                    IconButton(onClick = { /* Handle back navigation */ }) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                    IconButton(onClick = {
+                        // Safe navigation to home screen
+                        navController.navigate(ROUTE_HOME) {
+                            // Pop up to the home destination to avoid building up a large stack of destinations
+                            popUpTo(ROUTE_HOME) { inclusive = true }
+                        }
+
+                    }) {
+                        Icon(Icons.Default.ArrowBack, contentDescription = "Back to Home")
                     }
                 },
                 actions = {
@@ -108,52 +115,76 @@ fun ContactDirectoryApp() {
                         Icon(Icons.Default.Search, contentDescription = "Search")
                     }
                 },
-              colors = TopAppBarDefaults.mediumTopAppBarColors(
+                colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                    titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                    navigationIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                    actionIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             )
-
-            // Search Field
-            OutlinedTextField(
-                value = searchQuery,
-                onValueChange = { searchQuery = it },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp),
-                placeholder = { Text("Search contacts...") },
-                leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
-                singleLine = true,
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = MaterialTheme.colorScheme.primary,
-                    unfocusedBorderColor = MaterialTheme.colorScheme.outline
-                )
-            )
-
-            // Contact List
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f)
-                    .background(MaterialTheme.colorScheme.background)
-            ) {
-                items(filteredProfiles) { profile ->
-                    ProfileCard(
-                        profile = profile,
-                        onCallClick = { callingProfile = profile }
+        }
+    ) { paddingValues ->
+        Box(modifier = Modifier
+            .fillMaxSize()
+            .padding(paddingValues)
+        ) {
+            Column(modifier = Modifier.fillMaxSize()) {
+                // Search Field
+                OutlinedTextField(
+                    value = searchQuery,
+                    onValueChange = { searchQuery = it },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp),
+                    placeholder = { Text("Search contacts...") },
+                    leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
+                    singleLine = true,
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedBorderColor = MaterialTheme.colorScheme.primary,
+                        unfocusedBorderColor = MaterialTheme.colorScheme.outline
                     )
-                    Divider()
+                )
+
+                // Contact List
+                if (filteredProfiles.isEmpty()) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(16.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = "No contacts found",
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                } else {
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(1f)
+                            .background(MaterialTheme.colorScheme.background)
+                    ) {
+                        items(filteredProfiles) { profile ->
+                            ProfileCard(
+                                profile = profile,
+                                onCallClick = { callingProfile = profile }
+                            )
+                            Divider()
+                        }
+                    }
                 }
             }
-        }
 
-        // Calling Dialog
-        callingProfile?.let { profile ->
-            CallDialog(
-                profile = profile,
-                onDismiss = { callingProfile = null }
-            )
+            // Calling Dialog
+            callingProfile?.let { profile ->
+                CallDialog(
+                    profile = profile,
+                    onDismiss = { callingProfile = null }
+                )
+            }
         }
     }
 }
@@ -166,18 +197,19 @@ fun ProfileCard(profile: Profile, onCallClick: () -> Unit) {
             .padding(12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // Avatar
-        Image(
-            painter = rememberAsyncImagePainter(
-                ImageRequest.Builder(LocalContext.current)
-                    .data(data = profile.avatarUrl)
-                    .build()
-            ),
-            contentDescription = "Avatar",
+        // Avatar - Using Coil for image loading
+        AsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(profile.avatarUrl)
+                .crossfade(true)
+                .build(),
+            contentDescription = "Avatar of ${profile.name}",
             modifier = Modifier
                 .size(48.dp)
                 .clip(CircleShape),
             contentScale = ContentScale.Crop
+            //error = painterResource(id = R.drawable.ic_person_placeholder),
+            //placeholder = painterResource(id = R.drawable.ic_person_placeholder)
         )
 
         // Profile Info
@@ -210,7 +242,7 @@ fun ProfileCard(profile: Profile, onCallClick: () -> Unit) {
         ) {
             Icon(
                 Icons.Default.Call,
-                contentDescription = "Call",
+                contentDescription = "Call ${profile.name}",
                 modifier = Modifier.size(20.dp)
             )
         }
@@ -246,18 +278,19 @@ fun CallDialog(profile: Profile, onDismiss: () -> Unit) {
                         .padding(24.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    // Avatar
-                    Image(
-                        painter = rememberAsyncImagePainter(
-                            ImageRequest.Builder(LocalContext.current)
-                                .data(data = profile.avatarUrl)
-                                .build()
-                        ),
-                        contentDescription = "Avatar",
+                    // Avatar - Using Coil for image loading
+                    AsyncImage(
+                        model = ImageRequest.Builder(LocalContext.current)
+                            .data(profile.avatarUrl)
+                            .crossfade(true)
+                            .build(),
+                        contentDescription = "Avatar of ${profile.name}",
                         modifier = Modifier
                             .size(80.dp)
                             .clip(CircleShape),
                         contentScale = ContentScale.Crop
+                       // error = painterResource(id = R.drawable.ic_person_placeholder),
+                       // placeholder = painterResource(id = R.drawable.ic_person_placeholder)
                     )
 
                     Spacer(modifier = Modifier.height(16.dp))
@@ -301,11 +334,23 @@ fun CallDialog(profile: Profile, onDismiss: () -> Unit) {
     }
 }
 
-@Preview(showBackground = true)
 @Composable
-fun ContactDirectoryPreview() {
-    MaterialTheme {
-        ContactDirectoryApp()
-    }
+fun AsyncImage(
+    model: ImageRequest,
+    contentDescription: String,
+    modifier: Modifier,
+    contentScale: ContentScale,
+   // error: painterResource,
+    //placeholder: painterResource
+) {
+    TODO("Not yet implemented")
 }
+
+//@Preview(showBackground = true)
+//@Composable
+//fun ContactDirectoryPreview() {
+//    MaterialTheme {
+//        ContactDirectoryApp()
+//    }
+//}
 

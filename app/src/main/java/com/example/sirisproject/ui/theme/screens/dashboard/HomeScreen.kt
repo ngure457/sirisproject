@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.sirisproject.R
+import com.example.sirisproject.navigation.ROUTE_ADD_PRODUCT
 import com.example.sirisproject.navigation.ROUTE_BIBLE
 import com.example.sirisproject.navigation.ROUTE_CALL
 import com.example.sirisproject.navigation.ROUTE_EVENTS
@@ -70,7 +71,7 @@ fun HomeScreen(navController: NavController) {
             id = 5,
             title = "What's in the Shop?",
             imageResId = R.drawable.shopping,
-            route = ROUTE_SHOP
+            route = ROUTE_ADD_PRODUCT
         ),
         FeatureCard(
             id = 6,
@@ -95,7 +96,8 @@ fun HomeScreen(navController: NavController) {
                 )
             )
         }
-    ) { paddingValues ->
+    )
+    { paddingValues ->
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()

@@ -77,8 +77,8 @@ fun LoginScreen(navController: NavController){
         Column (modifier = Modifier.fillMaxHeight(), verticalArrangement = Arrangement.Center) {
             Text(
                 text = " WELCOME BACK !!",
-                fontSize = 40.sp,
-                color = Color.White,
+                fontSize = 20.sp,
+                color = Color.Blue,
                 fontFamily = FontFamily.SansSerif,
                 fontStyle = FontStyle.Normal,
                 textAlign = TextAlign.Center,
